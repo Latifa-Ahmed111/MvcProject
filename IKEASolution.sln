@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IKEA.PL", "IKEA.PL\IKEA.PL.csproj", "{7C2C81B8-BD23-4C13-978E-C7228FEC0C72}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IKEA.DATA", "IKEA.DATA\IKEA.DATA.csproj", "{FABC86AB-F2C4-4AEE-BEE8-EC0D8546434A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7C2C81B8-BD23-4C13-978E-C7228FEC0C72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C2C81B8-BD23-4C13-978E-C7228FEC0C72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C2C81B8-BD23-4C13-978E-C7228FEC0C72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FABC86AB-F2C4-4AEE-BEE8-EC0D8546434A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FABC86AB-F2C4-4AEE-BEE8-EC0D8546434A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FABC86AB-F2C4-4AEE-BEE8-EC0D8546434A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FABC86AB-F2C4-4AEE-BEE8-EC0D8546434A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
