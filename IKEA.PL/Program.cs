@@ -7,11 +7,16 @@ namespace IKEA.PL
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            #region Configure Services 
             builder.Services.AddControllersWithViews();
+            #endregion
+            
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+            #region Configure Pipline 
+
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
@@ -29,6 +34,7 @@ namespace IKEA.PL
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            #endregion
 
             app.Run();
         }
