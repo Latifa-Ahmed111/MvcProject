@@ -11,8 +11,10 @@ namespace IKEA.DAl.Persistance.Data
 {
     public class ApplicationDbcontext:DbContext
     {
-
-
+        public ApplicationDbcontext(DbContextOptions options):base(options)
+        {
+        
+        }   
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

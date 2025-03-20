@@ -1,3 +1,6 @@
+using IKEA.DAl.Persistance.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace IKEA.PL
 {
     public class Program
@@ -9,8 +12,15 @@ namespace IKEA.PL
             // Add services to the container.
             #region Configure Services 
             builder.Services.AddControllersWithViews();
-            #endregion
+
+            builder.Services.AddDbContext<ApplicationDbcontext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefualtConnection"));
+            });
             
+
+            #endregion
+
 
             var app = builder.Build();
 
