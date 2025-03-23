@@ -25,47 +25,42 @@ namespace IKEA.DAl.Persistance.Repositories.Departments
         //for each time create object of the DepartmentsReposatiory Clr make Refrence(Context) Refer to the Object created Already 
 
 
-
         public IEnumerable<Department> GetAll(bool WithNoTracking = true)
         {
-            if(WithNoTracking)
-                return dbContext.Departments.AsNoTracking().ToList();
-            return dbContext.Departments.ToList();
+            if (WithNoTracking)
+            {
+                return dbContext.Department.AsNoTracking().ToList();
+            }
+            return dbContext.Department.ToList();
         }
 
 
         public Department GetByID(int id)
         {
             //search Local First 
-            var Department=dbContext.Departments.Find(id);
+            var Department=dbContext.Department.Find(id);
 
-            //var Department = dbContext.Department.Local.FirstOrDefault(D=>D.Id == id);
-
-            //if(Department is null)
-            //{
-            //    Department = dbContext.Department.FirstOrDefault(D => D.Id == id);
-
-            //}
+          
             return Department;
         }
 
        
         public int Add(Department Department)
         {
-            dbContext.Departments.Add(Department);
+            dbContext.Department.Add(Department);
             return dbContext.SaveChanges();
         }
 
         public int Update(Department Department)
         {
-            dbContext.Departments.Update(Department);
+            dbContext.Department.Update(Department);
             return dbContext.SaveChanges() ;
 
         }
 
         public int Delete(Department Department)
         {
-            dbContext.Departments.Remove(Department);
+            dbContext.Department.Remove(Department);
             return dbContext.SaveChanges() ;
 
         }

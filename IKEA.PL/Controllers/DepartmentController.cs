@@ -5,22 +5,25 @@ namespace IKEA.PL.Controllers
 {
     public class DepartmentController : Controller
     {
-
+        
         //mainPage 
 
         //Service to get DataBase belongs to departments 
 
-        private IDepartmentsServices departmentsServices;
+       private IDepartmentsServices departmentsServices;
        public DepartmentController(IDepartmentsServices _departmentsServices)
         {
 
             departmentsServices = _departmentsServices;
 
         }
-
+        #region Index 
         public IActionResult Index()
         {
-            return View();
+            var Departmenmts=departmentsServices.GetAllDepartments();
+                return View(Departmenmts);
         }
+
+        #endregion
     }
 }

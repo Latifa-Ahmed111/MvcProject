@@ -24,7 +24,7 @@ namespace IKEA.DAl.Persistance.Data
 
 
 
-        public DbSet <Department> Departments { get; set; }
+        public DbSet <Department> Department { get; set; }
 
     }
 }
