@@ -1,3 +1,7 @@
+using IKEA.DAl.Persistance.Data;
+using IKEA.DAl.Persistance.Repositories.Departments;
+using Microsoft.EntityFrameworkCore;
+
 namespace IKEA.PL
 {
     public class Program
@@ -7,13 +11,27 @@ namespace IKEA.PL
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            #region Configure Services 
             builder.Services.AddControllersWithViews();
+            //with each request Clr Craete Dbcontxet 
+            builder.Services.AddDbContext<ApplicationDbcontext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefualtConnection"));
+            });
+            //when any one want to make object of IDepartmentsReposaiotry make it of DepartmentsReposatiory or (Oracle DepartmentReopsartory) and so on 
+
+            builder.Services.AddScoped<IDepartmentsReposaiotry, DepartmentsReposatiory>();
+
+            #endregion
+
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+            #region Configure Pipline 
+
             if (!app.Environment.IsDevelopment())
-            {
+            { 
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
@@ -29,6 +47,7 @@ namespace IKEA.PL
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            #endregion
 
             app.Run();
         }
