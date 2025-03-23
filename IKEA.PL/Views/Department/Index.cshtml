@@ -25,7 +25,7 @@
             
         </thead>
 
-        <tbody>
+        <tbody class="text-center">
             @foreach(var Det in Model)
             {
                 <tr>
@@ -42,13 +42,13 @@
                     <td>
 
                         <a asp-controller="Department" asp-action="Update" asp-route-id="@Det.Id"class ="btn btn-success">
-                            <i class="fas fa-edit">Update
+                            <i class="fas fa-edit"></i> Update
                         </a>
                     </td>
                     <td>
 
                         <a asp-controller="Department" asp-action="Delete" asp-route-id="@Det.Id" class="btn btn-danger">
-                            <i class="fas fa-trash">Delete
+                            <i class="fas fa-trash"></i> Delete
 
                         </a>
                     </td>

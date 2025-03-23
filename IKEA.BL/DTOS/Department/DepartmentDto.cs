@@ -12,6 +12,7 @@ namespace IKEA.BLL.DTOS.Department
         public int Id { get; set; }
         public string Name { get; set; } = null!;
 
+
         public string Code { get; set; } = null!;
 
         [Display (Name ="Name Of Creation")]
