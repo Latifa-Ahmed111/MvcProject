@@ -1,3 +1,4 @@
+using IKEA.BLL.Services.DepartmentsServices;
 using IKEA.DAl.Persistance.Data;
 using IKEA.DAl.Persistance.Repositories.Departments;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,7 @@ namespace IKEA.PL
             //when any one want to make object of IDepartmentsReposaiotry make it of DepartmentsReposatiory or (Oracle DepartmentReopsartory) and so on 
 
             builder.Services.AddScoped<IDepartmentsReposaiotry, DepartmentsReposatiory>();
-
+            builder.Services.AddScoped<IDepartmentsServices, DepartmentsServices>();
             #endregion
 
 
