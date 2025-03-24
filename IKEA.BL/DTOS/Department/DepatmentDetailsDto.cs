@@ -31,5 +31,6 @@ namespace IKEA.BLL.DTOS.Department
         public string? Description { get; set; }
 
         public DateOnly CreationDate { get; set; }
+        public DateOnly LastModifiedOn { get;  set; }
     }
 }
