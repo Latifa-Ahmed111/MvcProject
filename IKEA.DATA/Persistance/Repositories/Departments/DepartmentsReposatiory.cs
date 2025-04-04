@@ -29,9 +29,9 @@ namespace IKEA.DAl.Persistance.Repositories.Departments
         {
             if (WithNoTracking)
             {
-                return dbContext.Department.AsNoTracking().ToList();
+                return dbContext.Department.Where(D=>D.IsDeleted==false).AsNoTracking().ToList();
             }
-            return dbContext.Department.ToList();
+            return dbContext.Department.Where(D => D.IsDeleted == false).ToList();
         }
 
 
@@ -60,7 +60,8 @@ namespace IKEA.DAl.Persistance.Repositories.Departments
 
         public int Delete(Department Department)
         {
-            dbContext.Department.Remove(Department);
+            Department.IsDeleted = true;
+            dbContext.Department.Update(Department);
             return dbContext.SaveChanges() ;
 
         }

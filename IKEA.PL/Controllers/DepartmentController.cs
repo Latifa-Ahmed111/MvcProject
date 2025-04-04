@@ -165,6 +165,44 @@ namespace IKEA.PL.Controllers
         }
 
 
-        #endregion 
+        #endregion
+
+        #region Delete 
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            if(id is null)
+            {
+                return BadRequest();
+            }
+            var Department = departmentsServices.GetDepartmentById(id.Value);
+            if (Department is null) { return NotFound(); };
+            return View(Department);
+        }
+        [HttpPost]
+        public ActionResult Delete(int Deptid)
+        {
+            var message = String.Empty;
+            try
+            {
+                var IsDeleted = departmentsServices.DeleteDepartment(Deptid);
+                if(IsDeleted)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                message = "Department is Not Deleted ";
+
+            }
+            catch   (Exception ex)
+            {
+                logger.LogError(ex, ex.Message);
+                message = enviroment.IsDevelopment()?ex.Message :" the is error during the  Deleting this Department ";
+
+            }
+            ModelState.AddModelError(string.Empty,message);
+            return RedirectToAction(nameof(Delete), new { id = Deptid });
+        }
+        #endregion
+
     }
 }
