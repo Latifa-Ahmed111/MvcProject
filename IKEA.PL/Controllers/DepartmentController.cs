@@ -106,5 +106,65 @@ namespace IKEA.PL.Controllers
             
         }
         #endregion
+
+        #region Update
+        [HttpGet]
+
+        public IActionResult Edit(int?id)
+        {
+            
+            if(id is null)
+            {
+                return BadRequest();
+            }
+            var Department = departmentsServices.GetDepartmentById(id.Value);
+            if (Department is null)
+            {
+                return NotFound();
+            }
+            var MappedDepartment = new UpdatedDepartmentDto
+            {
+                Id = Department.Id,
+                Name = Department.Name,
+                Code = Department.Code,
+                Description = Department.Description,
+                CreationDate = Department.CreationDate,
+
+            };
+            return View(MappedDepartment);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(UpdatedDepartmentDto departmentdto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(departmentdto);
+
+            }
+            var message = String.Empty;
+            try
+            {
+                var Result = departmentsServices.UpdateDepartment(departmentdto);
+                if (Result > 0)
+                {
+
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                    message = "Department is Not Updated ";
+            }
+            catch (Exception ex)
+            {
+                //log exception throw the kestral 
+                logger.LogError(ex,ex.Message);
+                message = enviroment.IsDevelopment() ? ex.Message : "An Error Occured During Updated the Department ";
+            }
+            ModelState.AddModelError(string.Empty,message);
+            return View(departmentdto);
+        }
+
+
+        #endregion 
     }
 }
