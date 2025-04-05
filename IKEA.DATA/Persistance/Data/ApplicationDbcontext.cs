@@ -1,4 +1,5 @@
 ﻿using IKEA.DAl.Models.Departments;
+using IKEA.DAl.Models.Employees;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,6 @@ namespace IKEA.DAl.Persistance.Data
 
 
         public DbSet <Department> Department { get; set; }
-
+        public DbSet<Employee> Employees { get; set; }
     }
 }
