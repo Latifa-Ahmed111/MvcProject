@@ -1,0 +1,27 @@
+﻿using IKEA.DAl.Common.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IKEA.BLL.DTOS.Employees
+{
+    public class EmployeeDto
+    {
+        public int Id { get; set; }
+        public String Name { get; set; } = null!;
+
+        public int? Age { get; set; }
+
+        public decimal Salary { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public String? Email { get; set; }
+
+        public string Gender { get; set; } = null!;
+
+        public string EmployeeType { get; set; }=null!;
+    }
+}
