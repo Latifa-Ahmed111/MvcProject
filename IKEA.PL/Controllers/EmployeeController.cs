@@ -1,4 +1,7 @@
-﻿using IKEA.BLL.Services.EmployeeServices;
+﻿using IKEA.BLL.DTOS.Department;
+using IKEA.BLL.DTOS.Employees;
+using IKEA.BLL.Services.DepartmentsServices;
+using IKEA.BLL.Services.EmployeeServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IKEA.PL.Controllers
@@ -24,6 +27,63 @@ namespace IKEA.PL.Controllers
         {
             var Employees = employeeServices.GetAllEmployees();
             return View(Employees);
+        }
+        #endregion
+
+
+
+        #region Create
+        [HttpGet]
+        public IActionResult Create()
+        {
+
+            return View();
+
+        }
+        [HttpPost]
+        public IActionResult Create(CreatedEmployeeDto Employeedto)
+        {
+
+
+            if (!ModelState.IsValid)
+            {
+                return View(Employeedto);
+            }
+            var message = string.Empty;
+
+            try
+            {
+                var Result = employeeServices.CreateEmployee(Employeedto);
+                if (Result > 0)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    message = "Employee IS not Created ";
+                   
+                }
+            }
+            catch (Exception ex)
+            {
+                //log exception in Kestral
+                logger.LogError(ex, ex.Message);
+                if (environment.IsDevelopment())
+                {
+                    message = ex.Message;
+                   
+                }
+                else
+                {
+                    message = "An Error Effect at the creation operation ";
+                    
+                }
+                
+            }
+            ModelState.AddModelError(string.Empty, message);
+            return View(Employeedto);
+
+
         }
         #endregion
     }
