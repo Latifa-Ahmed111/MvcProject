@@ -106,5 +106,71 @@ namespace IKEA.PL.Controllers
         }
 
         #endregion 
+
+        #region Update
+        [HttpGet]
+
+        public IActionResult Edit(int? id)
+        {
+
+            if (id is null)
+            {
+                return BadRequest();
+            }
+            var Employee = employeeServices.GetEmployeeById(id.Value);
+            if (Employee is null)
+            {
+                return NotFound();
+            }
+            var MappedEmployee = new UpdatedEmployeeDto
+            {
+                Id = Employee.Id,
+                Name = Employee.Name,
+                Age = Employee.Age,
+                Address = Employee.Address,
+                HiringDate = Employee.HiringDate,
+                Salary=Employee.Salary,
+                Gender=Employee.Gender,
+                EmployeeType=Employee.EmployeeType,
+                IsActive=Employee.IsActive,
+                PhoneNumber = Employee.PhoneNumber,
+                Email = Employee.Email
+
+            };
+            return View(MappedEmployee);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(UpdatedEmployeeDto employeedto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(employeedto);
+
+            }
+            var message = String.Empty;
+            try
+            {
+                var Result = employeeServices.UpdateEmployee(employeedto);
+                if (Result > 0)
+                {
+
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                    message = "Employee is Not Updated ";
+            }
+            catch (Exception ex)
+            {
+                //log exception throw the kestral 
+                logger.LogError(ex, ex.Message);
+                message = environment.IsDevelopment() ? ex.Message : "An Error Occured During Updated the Employee ";
+            }
+            ModelState.AddModelError(string.Empty, message);
+            return View(employeedto);
+        }
+
+
+        #endregion
     }
 }
