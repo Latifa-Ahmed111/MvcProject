@@ -16,7 +16,7 @@ namespace IKEA.DAl.Persistance.Repositories._Generics
         //Create 
         //Upadte
         //Delete 
-        IEnumerable<T> GetAll(bool WithNoTracking = true);
+        IQueryable<T> GetAll(bool WithNoTracking = true);
 
         T GetByID(int id);
         //REturns Numbers of Raw affected 

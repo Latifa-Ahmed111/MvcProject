@@ -25,13 +25,13 @@ namespace IKEA.DAl.Persistance.Repositories._Generics
         //for each time create object of the DepartmentsReposatiory Clr make Refrence(Context) Refer to the Object created Already 
 
 
-        public IEnumerable<T> GetAll(bool WithNoTracking = true)
+        public IQueryable<T> GetAll(bool WithNoTracking = true)
         {
             if (WithNoTracking)
             {
-                return dbContext.Set<T>().Where(D => D.IsDeleted == false).AsNoTracking().ToList();
+                return dbContext.Set<T>().AsNoTracking();
             }
-            return dbContext.Set<T>().Where(D => D.IsDeleted == false).ToList();
+            return dbContext.Set<T>();
         }
 
 
