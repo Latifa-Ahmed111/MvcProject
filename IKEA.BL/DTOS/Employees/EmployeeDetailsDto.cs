@@ -29,7 +29,7 @@ namespace IKEA.BLL.DTOS.Employees
         public Gender Gender { get; set; }
 
         public EmployeeType EmployeeType { get; set; }
-
+        public string? Department { get; set; }
         #region Admistration
 
         public int CreatedBy { get; set; }
@@ -39,6 +39,8 @@ namespace IKEA.BLL.DTOS.Employees
         public int LastModifiedBy { get; set; }
 
         public DateTime LastModifiedon { get; set; }
+
+        
         #endregion
 
 

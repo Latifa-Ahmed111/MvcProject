@@ -1,6 +1,9 @@
 ﻿@model UpdatedEmployeeDto
+@inject IDepartmentsServices departmentServices
 @{
     ViewData["Title"] = "Update Employee";
+    var Departments = new SelectList(departmentServices.GetAllDepartments(), nameof(DepartmentDto.Id), nameof(DepartmentDto.Name));
+}
 }
 
 <div class="row justify-content-center align-content-center flex-column">
@@ -42,6 +45,13 @@
             <label class="form-label" asp-for="EmployeeType"></label>
             <select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmployeeType>()" class="form-control">
                 <option value="null">Choose... </option>
+            </select>
+
+        </div>
+        <div class="form-group col-6">
+            <label class="form-label" asp-for="DepartmentId"></label>
+            <select asp-for="DepartmentId" asp-items="@Departments" class="form-control">
+                <option value="@null">Choose... </option>
             </select>
 
         </div>

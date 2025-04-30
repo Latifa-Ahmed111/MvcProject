@@ -2,6 +2,7 @@
 using IKEA.DAl.Models.Departments;
 using IKEA.DAl.Models.Employees;
 using IKEA.DAl.Persistance.Repositories.Employees;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace IKEA.BLL.Services.EmployeeServices
         public IEnumerable<EmployeeDto> GetAllEmployees()
         {
             var Employees = reposaitory.GetAll();
-            var filteredEmployees = Employees.Where(E => E.IsDeleted == false);
+            var filteredEmployees = Employees.Where(E => E.IsDeleted == false).Include(E=>E.Department);
             var AfterFilteration= filteredEmployees. Select(E=> new EmployeeDto()
             {
                 Id=E.Id,
@@ -33,6 +34,7 @@ namespace IKEA.BLL.Services.EmployeeServices
                 IsActive =E.IsActive,
                 Gender=E.Gender,
                 EmployeeType= E.EmployeeType,
+                Department=E.Department.Name?? "N/A"
 
             });
             return AfterFilteration.ToList();
@@ -60,6 +62,7 @@ namespace IKEA.BLL.Services.EmployeeServices
                     CreatedBy=Employee.CreatedBy,   
                     LastModifiedon=Employee.LastModifiedon,
                     CreatedOn=Employee.CreatedOn,
+                    Department = Employee.Department.Name ?? "N/A"
                 };
             }
             return null;
@@ -79,11 +82,13 @@ namespace IKEA.BLL.Services.EmployeeServices
                 PhoneNumber=employeeDto.PhoneNumber,
                 HiringDate = employeeDto.HiringDate,
                 Gender = employeeDto.Gender,
-                EmployeeType    = employeeDto.EmployeeType,
+                EmployeeType  = employeeDto.EmployeeType,
+                DepartmentId = employeeDto.DepartmentId,
                 CreatedBy =1,
                 LastModifiedBy=1,   
                 LastModifiedon=DateTime.Now,
                 CreatedOn=DateTime.Now, 
+               
 
             };
             return reposaitory.Add(Employee);
@@ -103,6 +108,7 @@ namespace IKEA.BLL.Services.EmployeeServices
                 HiringDate = employeeDto.HiringDate,
                 Gender = employeeDto.Gender,
                 EmployeeType = employeeDto.EmployeeType,
+                DepartmentId= employeeDto.DepartmentId,
                 LastModifiedBy = 1,
                 LastModifiedon = DateTime.Now,
 

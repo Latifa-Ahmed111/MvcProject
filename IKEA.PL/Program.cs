@@ -19,7 +19,7 @@ namespace IKEA.PL
             //with each request Clr Craete Dbcontxet 
             builder.Services.AddDbContext<ApplicationDbcontext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefualtConnection"));
+                options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefualtConnection"));
             });
             //when any one want to make object of IDepartmentsReposaiotry make it of DepartmentsReposatiory or (Oracle DepartmentReopsartory) and so on 
 
