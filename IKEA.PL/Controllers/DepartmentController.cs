@@ -27,8 +27,10 @@ namespace IKEA.PL.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var Departmenmts=departmentsServices.GetAllDepartments();
-                return View(Departmenmts);
+            var Departmenmts = departmentsServices.GetAllDepartments();
+            ViewData["Message"] = "Hello from ViewData ";
+            ViewBag.Message = "Hello from ViewBag";
+            return View(Departmenmts);
         }
 
         #endregion
@@ -87,6 +89,7 @@ namespace IKEA.PL.Controllers
                 var Result = departmentsServices.CreateDepartment(departmentdto);
                 if (Result > 0)
                 {
+                    TempData["Message"] = $"{departmentdto.Name} Department is Created ";
                     return RedirectToAction(nameof(Index));
                 }
                 else
