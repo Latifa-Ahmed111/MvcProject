@@ -29,7 +29,7 @@ namespace IKEA.BLL.Services.DepartmentsServices
         //Implementation   
         public IEnumerable<DepartmentDto> GetAllDepartments()
         {
-            var Departments = Reposatiory.GetAll().Select(department => new DepartmentDto() {
+            var Departments = Reposatiory.GetAll().Where(D=>!D.IsDeleted).Select(department => new DepartmentDto() {
 
                 Id = department.Id,
                 Name = department.Name,
