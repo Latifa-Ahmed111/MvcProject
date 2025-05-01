@@ -3,6 +3,7 @@ using IKEA.BLL.Services.EmployeeServices;
 using IKEA.DAl.Persistance.Data;
 using IKEA.DAl.Persistance.Repositories.Departments;
 using IKEA.DAl.Persistance.Repositories.Employees;
+using IKEA.DAl.Persistance.UnitOfWork;
 using IKEA.PL.Mapping;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,9 +25,11 @@ namespace IKEA.PL
             });
             //when any one want to make object of IDepartmentsReposaiotry make it of DepartmentsReposatiory or (Oracle DepartmentReopsartory) and so on 
 
-            builder.Services.AddScoped<IDepartmentsReposaiotry, DepartmentsReposatiory>();
+            //builder.Services.AddScoped<IDepartmentsReposaiotry, DepartmentsReposatiory>();
+
+            //builder.Services.AddScoped<IEmployeesReposaitory, EmployeeReposaitory>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWorkcs>();
             builder.Services.AddScoped<IDepartmentsServices, DepartmentsServices>();
-            builder.Services.AddScoped<IEmployeesReposaitory, EmployeeReposaitory>();
             builder.Services.AddScoped<IEmployeeServices, EmployeeService>();
             builder.Services.AddAutoMapper(M => M.AddProfile(typeof(MappingProfile)));
             #endregion

@@ -21,11 +21,11 @@ namespace IKEA.DAl.Persistance.Repositories._Generics
         T GetByID(int id);
         //REturns Numbers of Raw affected 
 
-        int Add(T Entity);
+        void Add(T Entity);
 
-        int Update(T Entity);
+        void Update(T Entity);
 
-        int Delete(T Entity);
+        void Delete(T Entity);
 
     }
 }
