@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IKEA.DAl.Models.Employees;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,9 @@ namespace IKEA.DAl.Models.Departments
         public string? Description { get; set; } 
 
         public DateOnly CreationDate { get; set; }
+
+        //Navigation prop as [Many]
+        public virtual ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
 
     }
 }

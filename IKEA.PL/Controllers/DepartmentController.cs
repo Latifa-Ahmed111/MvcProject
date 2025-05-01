@@ -1,4 +1,5 @@
-﻿using IKEA.BLL.DTOS.Department;
+﻿using AutoMapper;
+using IKEA.BLL.DTOS.Department;
 using IKEA.BLL.Services.DepartmentsServices;
 using IKEA.PL.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -15,20 +16,24 @@ namespace IKEA.PL.Controllers
        private readonly IDepartmentsServices departmentsServices;
         private readonly ILogger<DepartmentController> logger;
         private readonly IWebHostEnvironment enviroment;
+        private readonly IMapper mapper;
 
-        public DepartmentController(IDepartmentsServices _departmentsServices,ILogger<DepartmentController>_Logger,IWebHostEnvironment enviroment)
+        public DepartmentController(IDepartmentsServices _departmentsServices,ILogger<DepartmentController>_Logger,IWebHostEnvironment enviroment,IMapper mapper)
         {
 
             departmentsServices = _departmentsServices;
             logger = _Logger;
             this.enviroment = enviroment;
+            this.mapper = mapper;
         }
         #region Index 
         [HttpGet]
         public IActionResult Index()
         {
-            var Departmenmts=departmentsServices.GetAllDepartments();
-                return View(Departmenmts);
+            var Departmenmts = departmentsServices.GetAllDepartments();
+            ViewData["Message"] = "Hello from ViewData ";
+            ViewBag.Message = "Hello from ViewBag";
+            return View(Departmenmts);
         }
 
         #endregion
@@ -76,17 +81,19 @@ namespace IKEA.PL.Controllers
             
             try 
             {
-                var departmentdto = new CreatedDepartmentDto()
-                {
-                    Name = departmentVm.Name,
-                    Code = departmentVm.Code,
-                    CreationDate = departmentVm.CreationDate,
-                    Description = departmentVm.Description,
+                var departmentdto = mapper.Map<DepartmentVm, CreatedDepartmentDto>(departmentVm);
+                //var departmentdto = new CreatedDepartmentDto()
+                //{
+                //    Name = departmentVm.Name,
+                //    Code = departmentVm.Code,
+                //    CreationDate = departmentVm.CreationDate,
+                //    Description = departmentVm.Description,
 
-                };
+                //};
                 var Result = departmentsServices.CreateDepartment(departmentdto);
                 if (Result > 0)
                 {
+                    TempData["Message"] = $"{departmentdto.Name} Department is Created ";
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -116,7 +123,7 @@ namespace IKEA.PL.Controllers
         }
         #endregion
 
-        #region Update
+        #region Edit
         [HttpGet]
 
         public IActionResult Edit(int?id)
@@ -131,15 +138,18 @@ namespace IKEA.PL.Controllers
             {
                 return NotFound();
             }
-            var MappedDepartment = new DepartmentVm()
-            {
-                Id = Department.Id,
-                Name = Department.Name,
-                Code = Department.Code,
-                Description = Department.Description,
-                CreationDate = Department.CreationDate,
 
-            };
+
+            var MappedDepartment =mapper.Map<DepatmentDetailsDto, DepartmentVm>(Department);
+            //var MappedDepartment = new DepartmentVm()
+            //{
+            //    Id = Department.Id,
+            //    Name = Department.Name,
+            //    Code = Department.Code,
+            //    Description = Department.Description,
+            //    CreationDate = Department.CreationDate,
+
+            //};
             return View(MappedDepartment);
         }
 
@@ -155,14 +165,17 @@ namespace IKEA.PL.Controllers
             var message = String.Empty;
             try
             {
-                var departmentdto = new UpdatedDepartmentDto()
-                {
-                    Id=departmentVm.Id,
-                    Name = departmentVm.Name,
-                    Code = departmentVm.Code,
-                    CreationDate = departmentVm.CreationDate,
-                    Description = departmentVm.Description,
-                };
+                var departmentdto = mapper.Map<DepartmentVm, UpdatedDepartmentDto>(departmentVm);
+
+
+                //var departmentdto = new UpdatedDepartmentDto()
+                //{
+                //    Id=departmentVm.Id,
+                //    Name = departmentVm.Name,
+                //    Code = departmentVm.Code,
+                //    CreationDate = departmentVm.CreationDate,
+                //    Description = departmentVm.Description,
+                //};
 
 
                 var Result = departmentsServices.UpdateDepartment(departmentdto);

@@ -11,21 +11,23 @@ namespace IKEA.PL.Controllers
         #region services_DI
         private readonly IEmployeeServices employeeServices;
         private readonly ILogger<EmployeeController> logger;
+       
         private readonly IWebHostEnvironment environment;
 
-        public EmployeeController(IEmployeeServices employeeServices,ILogger<EmployeeController>logger,IWebHostEnvironment environment)
+        public EmployeeController(IEmployeeServices employeeServices,ILogger<EmployeeController>logger,IDepartmentsServices departmentsServices,IWebHostEnvironment environment)
         {
            this.employeeServices = employeeServices;
             this.logger = logger;
+            
             this.environment = environment;
         }
         #endregion
 
         #region Index 
         [HttpGet] // Employee/index
-        public IActionResult Index()
+        public IActionResult Index(string search)
         {
-            var Employees = employeeServices.GetAllEmployees();
+            var Employees = employeeServices.GetAllEmployees(search);
             return View(Employees);
         }
         #endregion
@@ -36,7 +38,7 @@ namespace IKEA.PL.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-
+            
             return View();
 
         }
@@ -82,6 +84,7 @@ namespace IKEA.PL.Controllers
                 }
                 
             }
+            
             ModelState.AddModelError(string.Empty, message);
             return View(Employeedto);
 
@@ -139,6 +142,7 @@ namespace IKEA.PL.Controllers
                 Email = Employee.Email
 
             };
+           
             return View(MappedEmployee);
         }
 

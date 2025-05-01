@@ -1,6 +1,7 @@
 ﻿using IKEA.BLL.DTOS.Department;
 using IKEA.DAl.Models.Departments;
 using IKEA.DAl.Persistance.Repositories.Departments;
+using IKEA.DAl.Persistance.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,21 +16,20 @@ namespace IKEA.BLL.Services.DepartmentsServices
 
         // we work By DI so we will pass Refrence of Reposatiory
         // We make refrence from IDepartmentsReposaiotry  to avoid that if we need call OrcaleDepartmentsReposaiotry مش عاىزين نلعب هنا
-        private IDepartmentsReposaiotry Reposatiory;
+       
 
+        private readonly IUnitOfWork unitOfWork;
 
-        public DepartmentsServices(IDepartmentsReposaiotry _reposatiory)
+        public DepartmentsServices(IUnitOfWork unitOfWork)
         {
-
-            Reposatiory = _reposatiory;
-
+            this.unitOfWork = unitOfWork;
         }
 
 
         //Implementation   
         public IEnumerable<DepartmentDto> GetAllDepartments()
         {
-            var Departments = Reposatiory.GetAll().Where(D=>!D.IsDeleted).Select(department => new DepartmentDto() {
+            var Departments = unitOfWork.DepartmentsReposaiotry.GetAll().Where(D=>!D.IsDeleted).Select(department => new DepartmentDto() {
 
                 Id = department.Id,
                 Name = department.Name,
@@ -58,7 +58,7 @@ namespace IKEA.BLL.Services.DepartmentsServices
 
         public DepatmentDetailsDto? GetDepartmentById(int Id)
         {
-           var Department=Reposatiory.GetByID(Id);
+           var Department= unitOfWork.DepartmentsReposaiotry.GetByID(Id);
             if (Department is not null)
             {
                 return new DepatmentDetailsDto()
@@ -96,9 +96,9 @@ namespace IKEA.BLL.Services.DepartmentsServices
 
 
             };
-            return Reposatiory.Add(CreatedDepartment);
+             unitOfWork.DepartmentsReposaiotry.Add(CreatedDepartment);
 
-
+            return unitOfWork.complete();
 
 
 
@@ -118,7 +118,8 @@ namespace IKEA.BLL.Services.DepartmentsServices
                 LastModifiedon= DateTime.Now,
                
             };
-            return Reposatiory.Update(UpdatedDepartment);
+             unitOfWork.DepartmentsReposaiotry.Update(UpdatedDepartment);
+            return unitOfWork.complete();
         }
 
 
@@ -128,13 +129,18 @@ namespace IKEA.BLL.Services.DepartmentsServices
         {
             
 
-            var department=Reposatiory.GetByID(departmentid);
+            var department= unitOfWork.DepartmentsReposaiotry.GetByID(departmentid);
           
             if(department is not null)
             {
-                return Reposatiory.Delete(department)>0;
+                 unitOfWork.DepartmentsReposaiotry.Delete(department);
             }
-           
+            var result = unitOfWork.complete();
+            if (result > 0)
+            {
+
+                return true;
+            }
             else
                 return false;
 
